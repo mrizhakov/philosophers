@@ -6,7 +6,7 @@
 /*   By: mrizakov <mrizakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 19:53:48 by mrizakov          #+#    #+#             */
-/*   Updated: 2023/08/19 22:43:12 by mrizakov         ###   ########.fr       */
+/*   Updated: 2023/08/19 23:27:09 by mrizakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,22 @@
 
 int	ft_input_check(char **argv, int argc, t_data *data)
 {
-	if (argc <= 4 || argc >= 7 
+	if (argc < 5 || argc > 6 
 		|| ft_int_error_check(argv[1]) == 0 
 		|| ft_int_error_check(argv[2]) == 0 
 		|| ft_int_error_check(argv[3]) == 0 
-		|| ft_int_error_check(argv[4]) == 0
-		|| ft_int_error_check(argv[5]) == 0)
+		|| ft_int_error_check(argv[4]) == 0)
 	{
 		print_message();
 		free(data);
 		return (1);
 	}
-	else
-		data->meal_target_data = -1;
+	if (argv[5] && ft_int_error_check(argv[5]) == 0)
+	{
+		print_message();
+		free(data);
+		return (1);
+	}
 	return (0);
 }
 
@@ -48,8 +51,8 @@ void	ft_input_convert(char **argv, t_data *data)
 
 void	print_message(void)
 {
-	printf ("Only positive numbers are allowed!\n");
-	printf ("Usage: philosophers number_of_philosophers ");
+	printf("Only positive numbers are allowed!\n");
+	printf("Usage: philosophers number_of_philosophers\n");
 	printf("time_to_die time_to_eat time_to_sleep\n");
 	printf("Optional: number_of_times_each_philosopher_must_eat\n");
 }
