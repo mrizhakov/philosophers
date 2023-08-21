@@ -30,8 +30,20 @@ void	*ft_routine(void *philo_void)
 	philo->death_after_eating = philo->start + philo->t_die;
 	pthread_mutex_unlock(&philo->data->death_time_mutex);
 	print_out(philo, "is thinking");
-	while (philo->dead == 0)
+	//pthread_mutex_lock(&philo->data->dead_mutex);
+	while (1)
 	{
+		pthread_mutex_lock(&philo->data->dead_mutex);
+
+		if (philo->dead != 0)
+		{
+			pthread_mutex_unlock(&philo->data->dead_mutex);
+			return NULL;
+		}
+		pthread_mutex_unlock(&philo->data->dead_mutex);
+
+		//pthread_mutex_unlock(&philo->data->dead_mutex);
+
 		philo->hungry = 1;
 		if (ft_eat(philo) == 1)
 			break ;
@@ -47,6 +59,8 @@ void	*ft_routine(void *philo_void)
 				break ;
 		}
 	}
+	//pthread_mutex_unlock(&philo->data->dead_mutex);
+
 	return (NULL);
 }
 

@@ -11,7 +11,9 @@
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra 
+CFLAGS_W_FSANITIZE = -Wall -Werror -Wextra -pthread -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra
+
 
 SRC = philos_exit.c philos.c philos_utils.c philos_func.c philos_monitor.c philos_init.c philos_time.c philos_input.c
 OBJ = $(SRC:.c=.o)
@@ -21,10 +23,13 @@ EXECUTABLE = philos
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -g3 -pthread -o $@
+	$(CC) $(CFLAGS) $(OBJ) -o $@
 
 $(EXECUTABLE)_sanitize: $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -g3 -pthread -fsanitize=thread -o $(EXECUTABLE)
+##	$(CC) $(CFLAGS) $(OBJ) -g3  -o $(EXECUTABLE)_sanitize
+	$(CC) $(CFLAGS_W_FSANITIZE) $(SRC) -o $(EXECUTABLE)_sanitize
+
+##	$(CC) $(CFLAGS) $(OBJ) -g3 -pthread -fsanitize=address -fsanitize=thread -o $(EXECUTABLE)_sanitize
 
 name:
 	@echo "Building $(EXECUTABLE)"
@@ -36,4 +41,6 @@ clean:
 	rm -f $(OBJ)
 	
 fclean:clean
-	rm -f $(EXECUTABLE)
+	rm -f $(EXECUTABLE) $(EXECUTABLE)_sanitize
+
+re:fclean clean

@@ -16,10 +16,11 @@ void	ft_die_verify_ext(t_philo *philo)
 {
 	usleep(philo->t_eat);
 	pthread_mutex_lock(&philo->data->dead_mutex);
+
 	philo->data->death = 1;
 	philo->dead = 1;
-	pthread_mutex_lock(&philo->data->print_mutex);
-	pthread_mutex_unlock(&philo->data->print_mutex);
+	//pthread_mutex_lock(&philo->data->print_mutex);
+	//pthread_mutex_unlock(&philo->data->print_mutex);
 	pthread_mutex_unlock(&philo->data->dead_mutex);
 }
 
@@ -32,21 +33,37 @@ int	ft_die_verify(t_philo *philo, uint64_t start)
 	death_time = philo->death_after_eating;
 	pthread_mutex_unlock(&philo->data->death_time_mutex);
 	current_time = get_time(philo);
+	//pthread_mutex_lock(&philo->data->dead_mutex);
+	pthread_mutex_lock(&philo->data->meal_mutex);
 	if (philo->data->n_philos_finished == philo->data->num_philo)
 	{
+		//pthread_mutex_unlock(&philo->data->dead_mutex);
+//		usleep(philo->t_eat);
+//		pthread_mutex_lock(&philo->data->dead_mutex);
+//		philo->data->death = 1;
+//		philo->dead = 1;
+//		pthread_mutex_lock(&philo->data->print_mutex);
+//		pthread_mutex_unlock(&philo->data->print_mutex);
+//		pthread_mutex_unlock(&philo->data->dead_mutex);
+		pthread_mutex_unlock(&philo->data->meal_mutex);
 		ft_die_verify_ext(philo);
 		return (2);
 	}
-	else if ((current_time - start) > death_time || philo->alone == 1)
+	pthread_mutex_unlock(&philo->data->meal_mutex);
+
+//	pthread_mutex_unlock(&philo->data->dead_mutex);
+
+	if ((current_time - start) > death_time || philo->alone == 1)
 	{
 		pthread_mutex_lock(&philo->data->dead_mutex);
 		philo->data->death = 1;
 		philo->dead = 1;
+		pthread_mutex_unlock(&philo->data->dead_mutex);
 		pthread_mutex_lock(&philo->data->print_mutex);
 		if ((current_time - start) > death_time || philo->alone == 1)
 			printf("%lu %d %s\n", current_time - start, philo->id, "died");
 		pthread_mutex_unlock(&philo->data->print_mutex);
-		pthread_mutex_unlock(&philo->data->dead_mutex);
+
 		return (1);
 	}
 	return (0);

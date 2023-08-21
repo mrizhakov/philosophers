@@ -94,7 +94,7 @@ void		ft_free_forks(t_data *data);
 void		ft_free_philo(t_data *data);
 int			ft_int_error_check(char *str);
 void		ft_usleep(t_philo *philo, unsigned long long duration);
-void		error_no_digit(const char *str);
+int			error_no_digit(const char *str);
 void		ft_input_convert(char **argv, t_data *data);
 
 #endif //PHILOS_H

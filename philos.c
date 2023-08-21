@@ -26,5 +26,6 @@ int	main(int argc, char **argv)
 	ft_create_forks(data);
 	ft_create_philos(data);
 	ft_thread_init(data);
+	ft_free_all(data);
 	return (0);
 }
