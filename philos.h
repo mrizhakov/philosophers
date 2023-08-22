@@ -6,7 +6,7 @@
 /*   By: mrizakov <mrizakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 19:53:52 by mrizakov          #+#    #+#             */
-/*   Updated: 2023/08/19 22:37:45 by mrizakov         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:38:01 by mrizakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int			ft_eat(t_philo *philo);
 void		ft_sleep(t_philo *philo);
 void		ft_monitor(t_data *data);
 int			ft_die_verify(t_philo *philo, uint64_t start);
-void		ft_die_verify_ext(t_philo *philo);
 void		will_he_wakeup(t_philo *philo, int status);
 uint64_t	get_start_time(void);
 uint64_t	get_time(t_philo *philo);
@@ -96,5 +95,11 @@ int			ft_int_error_check(char *str);
 void		ft_usleep(t_philo *philo, unsigned long long duration);
 int			error_no_digit(const char *str);
 void		ft_input_convert(char **argv, t_data *data);
+//void		ft_die_verify_update_flag(t_philo *philo);
+void		*ft_routine_init(void *philo_void);
+
+void	ft_exit_after_dinner(t_philo *philo, uint64_t death_time, uint64_t cur_time);
+void	ft_dth_flag(t_philo *philo, uint64_t death_time, uint64_t cur_time);
+uint64_t	ft_get_expected_time_of_death(t_philo *philo);
 
 #endif //PHILOS_H

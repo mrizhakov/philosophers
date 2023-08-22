@@ -6,7 +6,7 @@
 /*   By: mrizakov <mrizakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 19:53:48 by mrizakov          #+#    #+#             */
-/*   Updated: 2023/08/21 17:14:08 by mrizakov         ###   ########.fr       */
+/*   Updated: 2023/08/22 20:54:48 by mrizakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,12 @@ int	ft_input_check(char **argv, int argc, t_data *data)
 		|| ft_int_error_check(argv[3]) == 0
 		|| ft_int_error_check(argv[4]) == 0)
 	{
-		//printf("im here 1/n");
 		print_message();
 		free(data);
 		return (1);
 	}
 	if (argv[5] && ft_int_error_check(argv[5]) == 0)
 	{
-		//printf("im here 2/n");
 		print_message();
 		free(data);
 		return (1);
@@ -67,12 +65,7 @@ int	error_no_digit(const char *str)
 	while (str[i])
 	{
 		if (!(str[i] >= '0' && str[i] <= '9'))
-		{
-			//write (2, "Non numerical value inserted!\n", 30);
-			//print_message();
-			//free(data);
 			return (1);
-		}
 		i++;
 	}
 	return (0);

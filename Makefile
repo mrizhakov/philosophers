@@ -6,13 +6,13 @@
 #    By: mrizakov <mrizakov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/19 21:46:42 by mrizakov          #+#    #+#              #
-#    Updated: 2023/08/19 23:02:41 by mrizakov         ###   ########.fr        #
+#    Updated: 2023/08/22 16:48:42 by mrizakov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS_W_FSANITIZE = -Wall -Werror -Wextra -pthread -g -fsanitize=address
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS_W_FSANITIZE = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g
 
 
 SRC = philos_exit.c philos.c philos_utils.c philos_func.c philos_monitor.c philos_init.c philos_time.c philos_input.c
@@ -23,7 +23,7 @@ EXECUTABLE = philos
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $@
+	$(CC) -Wall -Werror -Wextra -pthread -fsanitize=thread $(OBJ) -o $@
 
 $(EXECUTABLE)_sanitize: $(OBJ)
 ##	$(CC) $(CFLAGS) $(OBJ) -g3  -o $(EXECUTABLE)_sanitize

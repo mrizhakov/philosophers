@@ -6,7 +6,7 @@
 /*   By: mrizakov <mrizakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 23:22:38 by kmooney           #+#    #+#             */
-/*   Updated: 2023/08/19 22:01:46 by mrizakov         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:55:48 by mrizakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	ft_eat(t_philo *philo)
 	if (philo->alone == 1)
 	{
 		print_out(philo, "has taken a fork");
-		usleep(philo->t_die * 1000);
+		usleep(philo->t_die * 1000); 
 		pthread_mutex_lock(&philo->data->dead_mutex);
 		philo->dead = 1;
 		pthread_mutex_unlock(&philo->data->dead_mutex);

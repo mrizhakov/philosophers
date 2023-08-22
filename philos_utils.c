@@ -6,7 +6,7 @@
 /*   By: mrizakov <mrizakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 19:53:43 by mrizakov          #+#    #+#             */
-/*   Updated: 2023/08/19 21:16:07 by mrizakov         ###   ########.fr       */
+/*   Updated: 2023/08/22 22:58:03 by mrizakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,66 @@
 
 int	print_out(t_philo *philo, char *msg)
 {
+	pthread_mutex_lock(&philo->data->dead_mutex);
 	pthread_mutex_lock(&philo->data->meal_mutex);
 	if (philo->data->n_philos_finished == philo->data->num_philo)
 	{
 		pthread_mutex_unlock(&philo->data->meal_mutex);
-
-		//pthread_mutex_lock(&philo->data->print_mutex);
-		pthread_mutex_lock(&philo->data->dead_mutex);
-
+		pthread_mutex_lock(&philo->data->print_mutex);
 		philo->data->death = 1;
 		philo->dead = 1;
+		pthread_mutex_unlock(&philo->data->print_mutex);
 		pthread_mutex_unlock(&philo->data->dead_mutex);
-
-		usleep(10000);
-		//pthread_mutex_unlock(&philo->data->print_mutex);
-		//pthread_mutex_unlock(&philo->data->dead_mutex);
 		return (0);
 	}
-	pthread_mutex_unlock(&philo->data->meal_mutex);
-	//pthread_mutex_lock(&philo->data->dead_mutex);
-	pthread_mutex_lock(&philo->data->dead_mutex);
 	if (philo->data->death != 1)
 	{
-		pthread_mutex_unlock(&philo->data->dead_mutex);
-
-		//pthread_mutex_unlock(&philo->data->dead_mutex);
-
+		pthread_mutex_unlock(&philo->data->meal_mutex);
 		pthread_mutex_lock(&philo->data->print_mutex);
 		philo->current = get_time(philo) - philo->start;
 		printf("%lu %d %s\n", philo->current, philo->id, msg);
 		pthread_mutex_unlock(&philo->data->print_mutex);
-		//pthread_mutex_unlock(&philo->data->dead_mutex);
+		pthread_mutex_unlock(&philo->data->dead_mutex);
 		return (0);
 	}
-	pthread_mutex_unlock(&philo->data->dead_mutex);
-
-	//pthread_mutex_unlock(&philo->data->dead_mutex);
-
 	philo->dead = 1;
-	//pthread_mutex_unlock(&philo->data->dead_mutex);
+	pthread_mutex_unlock(&philo->data->meal_mutex);
+	pthread_mutex_unlock(&philo->data->dead_mutex);
 	return (1);
 }
+
+// int	print_out(t_philo *philo, char *msg)
+// {
+// 	pthread_mutex_lock(&philo->data->meal_mutex);
+// 	if (philo->data->n_philos_finished == philo->data->num_philo)
+// 	{
+// 		pthread_mutex_unlock(&philo->data->meal_mutex);
+// 		pthread_mutex_lock(&philo->data->dead_mutex);
+// 		philo->data->death = 1;
+// 		philo->dead = 1;
+// 		pthread_mutex_lock(&philo->data->print_mutex);
+// 		philo->current = get_time(philo) - philo->start;
+// 		printf("%lu %d %s\n", philo->current, philo->id, msg);
+// 		pthread_mutex_unlock(&philo->data->print_mutex);
+// 		ft_usleep(philo, 10);
+// 		pthread_mutex_unlock(&philo->data->dead_mutex);
+// 		return (0);
+// 	}
+// 	pthread_mutex_unlock(&philo->data->meal_mutex);
+// 	pthread_mutex_lock(&philo->data->dead_mutex);
+// 	if (philo->data->death != 1)
+// 	{
+// 		pthread_mutex_unlock(&philo->data->dead_mutex);
+// 		pthread_mutex_lock(&philo->data->print_mutex);
+// 		philo->current = get_time(philo) - philo->start;
+// 		printf("%lu %d %s\n", philo->current, philo->id, msg);
+// 		pthread_mutex_unlock(&philo->data->print_mutex);
+// 		return (0);
+// 	}
+// 	pthread_mutex_unlock(&philo->data->dead_mutex);
+// 	philo->dead = 1;
+// 	return (1);
+// }
 
 int	ft_atoi(char *str)
 {
