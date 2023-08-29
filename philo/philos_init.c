@@ -6,7 +6,7 @@
 /*   By: mrizakov <mrizakov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 19:53:48 by mrizakov          #+#    #+#             */
-/*   Updated: 2023/08/19 21:42:24 by mrizakov         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:40:36 by mrizakov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,9 @@ void	ft_create_forks(t_data *data)
 	{
 		data->forks[i] = (t_forks *)malloc(sizeof(t_forks));
 		if (pthread_mutex_init(&(data->forks[i])->mutex, NULL) != 0)
+		{
 			write(2, "Mutex creation fail", 20);
+		}
 		i++;
 	}
 	data->forks[i] = NULL;
